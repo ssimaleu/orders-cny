@@ -48,7 +48,7 @@
     function render(data) {
       const ordersBody = document.querySelector("#orders-table tbody");
       ordersBody.innerHTML = data.orders.map(o => `
-        <tr><td>${o.order_id}</td><td>${o.name ?? "?"}</td><td>${o.region ?? "?"}</td>
+        <tr><td>${o.order_id}</td><td>${o.customer_name ?? "?"}</td><td>${o.region ?? "?"}</td>
             <td class="num">${fmt(o.amount)}</td><td>${o.currency}</td>
             <td class="num"><b>${fmt(o.amount_cny)}</b></td></tr>`).join("");
 

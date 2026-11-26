@@ -2,7 +2,7 @@
 """clean_and_merge.py
 
 ETL pipeline:
-1. Read the two data files (data/orders.csv, data/customers.csv)
+1. Read the two data files (data/order.txt, data/customer.txt)
 2. Remove duplicate rows
 3. Convert all amounts to CNY into a new column 'amount_cny'
    (rates: USD=6.9, EUR=7.5, CNY=1.0, JPY=0.05)
@@ -25,8 +25,8 @@ RATES = {"USD": 6.9, "EUR": 7.5, "CNY": 1.0, "JPY": 0.05}
 
 def load_and_clean() -> tuple[pd.DataFrame, pd.DataFrame]:
     """Read the two data files, clean duplicates and convert amounts to CNY."""
-    orders = pd.read_csv(DATA_DIR / "orders.csv")
-    customers = pd.read_csv(DATA_DIR / "customers.csv")
+    orders = pd.read_csv(DATA_DIR / "order.txt")
+    customers = pd.read_csv(DATA_DIR / "customer.txt")
 
     before = len(orders)
     orders = orders.drop_duplicates().reset_index(drop=True)
