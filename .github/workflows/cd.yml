@@ -1,6 +1,7 @@
-name: Update database
+name: CD
 
-# Triggers when any file in the 'data/' folder is pushed
+# Continuous Delivery: when any file in the 'data/' folder is pushed,
+# rebuild the database and deliver the updated artifact to the repository.
 on:
   push:
     paths:

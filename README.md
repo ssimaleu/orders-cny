@@ -6,12 +6,13 @@ visualize it with a Flask frontend, all automated with GitHub Actions.
 ## Project structure
 
 ```
-data/orders.csv          raw order data (with duplicates, mixed currencies)
-data/customers.csv       customer data (id, name, region)
-clean_and_merge.py       ETL script -> orders.db (SQLite)
-app.py                   Flask frontend
-templates/index.html     dashboard page (auto-refresh 5 s)
-.github/workflows/update-data.yml   CI: rebuild DB when data/ changes
+data/order.txt          raw order data
+data/customer.txt       customer data (id, name, region)
+clean_and_merge.py      ETL script -> orders.db (SQLite)
+app.py                  Flask frontend
+templates/index.html    dashboard page (auto-refresh 5 s)
+.github/workflows/ci.yml   CI: validate the pipeline on every push/PR
+.github/workflows/cd.yml   CD: rebuild DB when data/ changes
 ```
 
 ## 1. Run the ETL script
@@ -41,6 +42,9 @@ so it updates automatically when the database changes.
 
 ## 3. GitHub Actions
 
-`update-data.yml` triggers when any file under `data/` is pushed. It
-installs Python 3.11 + pandas/flask, runs `clean_and_merge.py` to update
-the database, and commits the refreshed `orders.db` back to the repo.
+- **CI (`ci.yml`)** — on every push/PR to `main`: installs Python 3.11 +
+  pandas/flask, runs `clean_and_merge.py`, checks the database tables are
+  populated, and smoke-tests the Flask app.
+- **CD (`cd.yml`)** — when any file under `data/` is pushed (or manually
+  via *Run workflow*): runs `clean_and_merge.py` to rebuild the database,
+  then commits the refreshed `orders.db` back to the repo.
